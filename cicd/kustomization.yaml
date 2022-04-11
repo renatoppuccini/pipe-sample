@@ -1,0 +1,8 @@
+resources:
+- namespace.yaml
+- Tasks/deploy.yaml
+- Pipeline/build-push.yaml
+- PipelineRun/pvc.yaml
+- PipelineRun/build-push.yaml
+
+namespace: sample-php-cicd

@@ -1,0 +1,13 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: sample-php
+  labels:
+    app: sample-php
+spec:
+  to:
+    kind: Service
+    name: sample-php
+    weight: 100
+  port:
+    targetPort: 8080

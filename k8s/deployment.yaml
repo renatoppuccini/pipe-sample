@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sample-php
+  name: sample-php
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-php
+  template:
+    metadata:
+      labels:
+        app: sample-php
+    spec:
+      containers:
+        - image: quay.io/gfontana/sample-php:latest
+          imagePullPolicy: Always
+          name: sample-php
+          ports:
+            - containerPort: 8080
+              protocol: TCP
