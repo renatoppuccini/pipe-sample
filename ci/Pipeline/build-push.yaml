@@ -9,9 +9,11 @@ spec:
   - name: deployment-name
     type: string
     description: name of the deployment to be patched
+    default: "sample-php"
   - name: git-url
     type: string
     description: url of the git repo for the code of deployment
+    default: "https://github.com/giofontana/rhel-ubi-apache-sample.git"
   - name: git-revision
     type: string
     description: revision to be used from repo of the code for deployment
@@ -25,8 +27,10 @@ spec:
     default: "."
   - name: acs_central_endpoint
     type: string
+    default: "acs-secret"
   - name: acs_api_token
     type: string
+    default: "acs-secret"
   - name: manifests-location-in-git-repo
     type: string  
     default: "./k8s"
@@ -50,7 +54,7 @@ spec:
       value: "true"
     - name: revision
       value: $(params.git-revision)
-  - name: resource-deployment-check
+  - name: security-check
     params:
     - name: acs_central_endpoint
       value: $(params.acs_central_endpoint)
@@ -68,7 +72,7 @@ spec:
       workspace: shared-workspace
     runAfter:
     - fetch-repository     
-  - name: build-image
+  - name: build-and-push-image
     taskRef:
       name: buildah
       kind: ClusterTask
@@ -81,7 +85,7 @@ spec:
     - name: source
       workspace: shared-workspace
     runAfter:
-    - resource-deployment-check
+    - security-check
 #  - name: apply-manifests
 #    taskRef:
 #      name: apply-manifests

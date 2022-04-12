@@ -1,15 +1,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: deploy
+  name: deploy-using-argocd
 spec:
   workspaces:
   - name: source
   params:
-    - name: manifest_dir
+    - name: argocd_app_manifest
       description: The directory in source that contains yaml manifests
       type: string
-      default: "./k8s"
   steps:
     - name: apply
       image: registry.redhat.io/openshift4/ose-cli:latest
@@ -17,6 +16,6 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - |-
-          echo Applying manifests in $(inputs.params.manifest_dir) directory
-          oc apply -k $(inputs.params.manifest_dir)
+          echo Applying manifest $(inputs.params.argocd_app_manifest) to create ArgoCD Application
+          oc apply -f $(inputs.params.argocd_app_manifest)
           echo -----------------------------------
