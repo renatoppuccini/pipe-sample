@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespace.yaml
+- Tasks/deploy.yaml
+- Tasks/acs-deployment-check.yaml
+- Pipeline/build-push.yaml
+- PipelineRun/pvc.yaml
+- PipelineRun/build-push-latest.yaml
+
+namespace: sample-php-cicd

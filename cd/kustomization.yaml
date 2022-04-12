@@ -4,6 +4,6 @@ resources:
 - Tasks/acs-deployment-check.yaml
 - Pipeline/build-push.yaml
 - PipelineRun/pvc.yaml
-- PipelineRun/build-push.yaml
+- PipelineRun/build-push-latest.yaml
 
 namespace: sample-php-cicd

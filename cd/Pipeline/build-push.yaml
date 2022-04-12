@@ -65,7 +65,7 @@ spec:
       name: acs-deployment-check
     workspaces:
     - name: files
-      workspace: files
+      workspace: shared-workspace
     runAfter:
     - fetch-repository     
   - name: build-image
