@@ -1,16 +1,10 @@
-# Fixing Dockerfile.md
+# Fixing latest tag
 
-
-1. Add this code in the end of k8s/deployment.yaml file
+2. Replace the latest in k8s/deployment.yaml to v1.0
 
 ```
-          resources:
-            requests:
-              memory: "100Mi"
-              cpu: "100m"
-            limits:
-              memory: "500Mi"
-              cpu: "500m"
+#          image: quay.io/gfontana/sample-php:latest
+          image: quay.io/gfontana/sample-php:v1.0        
 ```
 
 Commit and push changes
