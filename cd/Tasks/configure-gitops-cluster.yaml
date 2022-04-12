@@ -1,14 +1,15 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: deploy-using-argocd
+  name: configure-gitops-cluster
 spec:
   workspaces:
   - name: source
   params:
-    - name: argocd_app_manifest
-      description: The manifest file that contains yaml manifests
+    - name: argocd_config_dir
+      description: The directory in source that contains yaml manifests
       type: string
+      default: "./Argocd/configuration"
   steps:
     - name: apply
       image: registry.redhat.io/openshift4/ose-cli:latest
@@ -16,6 +17,6 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - |-
-          echo Applying manifest $(inputs.params.argocd_app_manifest) to create ArgoCD Application
-          oc apply -f $(inputs.params.argocd_app_manifest)
+          echo Applying manifest $(inputs.params.argocd_config_dir) to configura ArgoCD GitOps Cluster
+          oc apply -k $(inputs.params.argocd_config_dir)
           echo -----------------------------------

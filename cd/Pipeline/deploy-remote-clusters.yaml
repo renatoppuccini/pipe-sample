@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: deploy
+  name: deploy-remote-clusters
 spec:
   workspaces:
   - name: shared-workspace
@@ -17,7 +17,11 @@ spec:
   - name: argocd_app_manifest
     type: string
     description: The directory in source that contains yaml manifests
-    default: "./cd/Argocd/sample-php-app.yaml"
+    default: "./cd/Argocd/sample-php-appset.yaml"
+  - name: argocd_config_dir
+    type: string
+    description: The directory in source that contains yamls to configure the GitOps cluster
+    default: "./cd/Argocd/configuration"    
   tasks:
   - name: fetch-repository
     taskRef:
@@ -35,6 +39,18 @@ spec:
       value: "true"
     - name: revision
       value: $(params.git-revision)
+  - name: configure-gitops-cluster
+    params:
+    - name: argocd_config_dir
+      value: $(params.argocd_config_dir)
+    taskRef:
+      kind: Task
+      name: configure-gitops-cluster
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    runAfter:
+    - fetch-repository      
   - name: deploy-using-argocd
     params:
     - name: argocd_app_manifest
@@ -46,4 +62,4 @@ spec:
     - name: source
       workspace: shared-workspace
     runAfter:
-    - fetch-repository
+    - configure-gitops-cluster
