@@ -50,6 +50,20 @@ spec:
       value: "true"
     - name: revision
       value: $(params.git-revision)
+  - name: build-image
+    taskRef:
+      name: buildah
+      kind: ClusterTask
+    params:
+    - name: IMAGE
+      value: $(params.IMAGE)
+    - name: CONTEXT
+      value: $(params.CONTEXT)      
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    runAfter:
+    - fetch-repository
   - name: resource-deployment-check
     params:
     - name: acs_central_endpoint
@@ -67,21 +81,8 @@ spec:
     - name: files
       workspace: shared-workspace
     runAfter:
-    - fetch-repository     
-  - name: build-image
-    taskRef:
-      name: buildah
-      kind: ClusterTask
-    params:
-    - name: IMAGE
-      value: $(params.IMAGE)
-    - name: CONTEXT
-      value: $(params.CONTEXT)      
-    workspaces:
-    - name: source
-      workspace: shared-workspace
-    runAfter:
-    - resource-deployment-check
+    - build-image     
+
 #  - name: apply-manifests
 #    taskRef:
 #      name: apply-manifests
