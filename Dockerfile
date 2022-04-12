@@ -1,8 +1,7 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3
 
 RUN microdnf --nodocs -y install httpd php \
-  && microdnf clean all \
-  && rpm -e $(rpm -qa *rpm*) $(rpm -qa *dnf*) $(rpm -qa *libsolv*) $(rpm -qa *hawkey*) $(rpm -qa yum*)
+  && microdnf clean all 
 
 ADD index.php /var/www/html
 
