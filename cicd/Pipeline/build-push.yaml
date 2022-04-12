@@ -23,6 +23,16 @@ spec:
     type: string
     description: Path to the application source code directory   
     default: "."
+  - name: acs_central_endpoint
+    type: string
+  - name: acs_api_token
+    type: string
+  - name: manifests-location-in-git-repo
+    type: string  
+    default: "./k8s"
+  - name: recursive-search
+    type: string   
+    default: "true" 
   tasks:
   - name: fetch-repository
     taskRef:
@@ -40,6 +50,24 @@ spec:
       value: "true"
     - name: revision
       value: $(params.git-revision)
+  - name: resource-deployment-check
+    params:
+    - name: acs_central_endpoint
+      value: $(params.acs_central_endpoint)
+    - name: acs_api_token
+      value: $(params.acs_api_token)
+    - name: source_location
+      value: $(params.manifests-location-in-git-repo)
+    - name: recursive-search
+      value: $(params.recursive-search)
+    taskRef:
+      kind: Task
+      name: acs-deployment-check
+    workspaces:
+    - name: files
+      workspace: files
+    runAfter:
+    - fetch-repository     
   - name: build-image
     taskRef:
       name: buildah
@@ -53,7 +81,7 @@ spec:
     - name: source
       workspace: shared-workspace
     runAfter:
-    - fetch-repository
+    - resource-deployment-check
 #  - name: apply-manifests
 #    taskRef:
 #      name: apply-manifests
