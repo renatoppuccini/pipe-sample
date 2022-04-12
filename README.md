@@ -14,3 +14,10 @@
 ```
 
 Commit and push changes
+
+Run the following PipelineRun:
+
+```
+oc apply -f ci/PipelineRun/build-push-v1.0.yaml 
+```
+

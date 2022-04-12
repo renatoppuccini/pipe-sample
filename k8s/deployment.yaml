@@ -15,9 +15,10 @@ spec:
         app: sample-php
     spec:
       containers:
-        - image: quay.io/gfontana/sample-php:latest
-          imagePullPolicy: IfNotPresent
-          name: sample-php
+        - name: sample-php
+#          image: quay.io/gfontana/sample-php:latest
+          image: quay.io/gfontana/sample-php:v1.0          
+          imagePullPolicy: IfNotPresent          
           ports:
             - containerPort: 8080
               protocol: TCP
