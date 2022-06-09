@@ -1,7 +1,8 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: build-push-latest
+  name: build-push-v1.0
+  namespace: sample-php-cicd
 spec:
   pipelineRef:
     name: build-push
@@ -11,11 +12,11 @@ spec:
   - name: git-url
     value: https://github.com/giofontana/rhel-ubi-apache-sample.git
   - name: IMAGE
-    value: quay-registry-quay-openshift-operators.apps.cluster-dvcqm.dvcqm.sandbox1759.opentlc.com/demo/sample-php:latest
+    value: quay-registry-quay-openshift-operators.apps.cluster-szznz.szznz.sandbox1469.opentlc.com/demo/sample-php:latest
   - name: acs_central_endpoint
     value: acs-secret
   - name: acs_api_token
-    value: acs-secret
+    value: acs-secret    
   workspaces:
   - name: shared-workspace
     volumeClaimTemplate:
