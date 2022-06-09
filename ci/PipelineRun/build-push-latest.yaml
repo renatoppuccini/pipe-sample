@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: build-push-v1.0
+  name: build-push-latest
   namespace: sample-php-cicd
 spec:
   pipelineRef:
