@@ -17,7 +17,7 @@ spec:
       containers:
         - name: sample-php
 #          image: quay.io/gfontana/sample-php:latest
-          image: quay.io/gfontana/sample-php:v1.0          
+          image: quay-registry-quay-openshift-operators.apps.cluster-blkz2.blkz2.sandbox548.opentlc.com/demo/sample-php:v1.0          
           imagePullPolicy: IfNotPresent          
           ports:
             - containerPort: 8080

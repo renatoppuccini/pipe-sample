@@ -30,8 +30,13 @@ oc create secret generic acs-secret \
 The URL that you put into the above command does not have http:// or https:// on the front of it.
 
 5. Change latest policy to fail on Build: Platform Configuration -> System Policies -> Seach for "Latest" -> Edit -> Next -> Next -> Next -> Switch Build to ON -> Save
+6. Add permissions for pipeline user:
 
-# Part 1: Simple CI process - Latest tag error
+```
+oc adm policy add-cluster-role-to-user cluster-admin -z pipeline -n sample-php-cicd
+```
+
+# Part 1 (CI): Simple CI process - Latest tag error
 
 [NOTE]
 Objectives: 
@@ -44,7 +49,7 @@ Run the following commands to create the Pipeline
 ```
 oc apply -k ci/
 ```
-
+2. Change parameter IMAGE from ci/PipelineRun/build-push-latest.yaml to relfect the quay URL.
 2. Run the PipelineRun. It will fail due to the latest tag.
 
 ```
@@ -52,7 +57,7 @@ oc apply -f ci/PipelineRun/pvc.yaml
 oc apply -f ci/PipelineRun/build-push-latest.yaml 
 ```
 
-3. Now fix it by commenting the following line
+3. Now fix it by commenting the following line from k8s\deployment.yaml manifest:
 ```
 #          image: quay.io/gfontana/sample-php:latest
 ```
@@ -65,7 +70,7 @@ And changing it to v1.0:
 4. Commit the changes.
 5. Run the `oc apply -f ci/PipelineRun/build-push-v1.0.yaml` command. Now it should finish successfully.
 
-# Part 2: Show Quay/Security Scanner
+# Part 2 (CI): Show Quay/Security Scanner
 
 [NOTE]
 Objectives: 
@@ -87,3 +92,14 @@ To:
 ```
 
 5. Commit and push the changes and rerun the CI pipeline.
+6. Access Quay and see that the security scan now is "Passed"
+
+# Part 3 (CD): Deployment pipeline
+
+[NOTE]
+Objectives: 
+1. Demonstrate deployment with Tekton & ArgoCD
+
+[PROCESS]
+oc apply -k cd/
+

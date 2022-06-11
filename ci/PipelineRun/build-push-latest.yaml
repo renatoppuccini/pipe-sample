@@ -12,7 +12,7 @@ spec:
   - name: git-url
     value: https://github.com/giofontana/rhel-ubi-apache-sample.git
   - name: IMAGE
-    value: quay-registry-quay-openshift-operators.apps.cluster-szznz.szznz.sandbox1469.opentlc.com/demo/sample-php:latest
+    value: quay-registry-quay-openshift-operators.apps.cluster-blkz2.blkz2.sandbox548.opentlc.com/demo/sample-php:latest
   - name: acs_central_endpoint
     value: acs-secret
   - name: acs_api_token
