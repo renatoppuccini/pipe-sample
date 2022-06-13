@@ -7,10 +7,16 @@
 4. Run the following commands to import the secret
 ```
 oc new-project sample-php-cicd
+oc new-project sample-php
 oc create -f demo-ocp-secret.yml --namespace=sample-php-cicd
+oc create -f demo-ocp-secret.yml --namespace=sample-php
+
 oc patch serviceaccount pipeline \
   -p '{"secrets": [{"name": "demo-ocp-pull-secret"}]}' \
   --namespace=sample-php-cicd
+
+oc secrets link default demo-ocp-pull-secret --for=pull -n sample-php
+
 ```
 5. Create a new private repository named sample-php.
 6. Add write permissions to the robot user. 
@@ -103,3 +109,4 @@ Objectives:
 [PROCESS]
 oc apply -k cd/
 
+Run pipeline from web console
